@@ -1,6 +1,13 @@
 package edu.baylor.cs.se.hibernate;
 
-import edu.baylor.cs.se.hibernate.model.Teacher;
+import edu.baylor.cs.se.hibernate.model.Team;
+
+import edu.baylor.cs.se.hibernate.model.Team.State;
+import edu.baylor.cs.se.hibernate.model.Contest;
+import edu.baylor.cs.se.hibernate.model.Person;
+import edu.baylor.cs.se.hibernate.services.Services;
+import java.util.Set;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,32 +20,19 @@ import javax.validation.ConstraintViolationException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.util.HashMap;
+import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+
 @RunWith(SpringRunner.class)
 @DataJpaTest
+
 public class ExampleTest {
-
-    @Autowired
-    private TestEntityManager entityManager;
-
-    @Test
-    //simple test
-    public void demoTest(){
-        Teacher teacher = new Teacher();
-        teacher.setEmail("email@email.com");
-        teacher.setFirstName("John");
-        teacher.setLastName("Roe");
-        entityManager.persist(teacher);
-        Teacher dbTeacher = (Teacher)entityManager.getEntityManager().createQuery("SELECT t FROM Teacher t WHERE t.firstName LIKE 'John' ").getResultList().get(0);
-        assertThat(teacher.getFirstName()).isEqualToIgnoringCase(dbTeacher.getFirstName());
-    }
-
-    @Test
-    //tests that email validation works
-    public void anotherDemoTest(){
-        Teacher teacher = new Teacher();
-        teacher.setEmail("hahaWrongEmail");
-        teacher.setFirstName("John");
-        teacher.setLastName("Roe");
-        assertThatThrownBy(() -> { entityManager.persist(teacher); }).isInstanceOf(ConstraintViolationException.class).hasMessageContaining("must contain valid email address");
-    }
+    
 }
